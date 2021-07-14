@@ -45,7 +45,11 @@ static NSTimeInterval SATrackAppClickMinTimeInterval = 0.1;
         }
         UIViewController *vc = (UIViewController *)next;
         if ([vc isKindOfClass:UINavigationController.class]) {
-            return [self findNextViewControllerByResponder:[(UINavigationController *)vc topViewController]];
+            UIViewController *topVC = [(UINavigationController *)vc topViewController];
+            if (![topVC isKindOfClass:UIViewController.class]) {
+                return nil;
+            }
+            return [self findNextViewControllerByResponder:topVC];
         } else if ([vc isKindOfClass:UITabBarController.class]) {
             return [self findNextViewControllerByResponder:[(UITabBarController *)vc selectedViewController]];
         }
